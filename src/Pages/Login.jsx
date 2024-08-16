@@ -1,8 +1,52 @@
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import logo from "../assets/login.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import useAuth from "../Hooks/useAuth";
 
 const Login = () => {
+  const { signIn, signInWithGoogle,signInWithGithub } = useAuth();
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location?.state || "/";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    try {
+      await signIn(email, password);
+      navigate(from);
+      toast.success("sign in successful");
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithGoogle();
+      navigate(from);
+      toast.success("sign up successful");
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
+  const handleGithubSignIn=async()=>{
+    try{
+      await signInWithGithub()
+      navigate(from)
+      toast.success('sign up successful')
+    }
+    catch(err){
+      toast.error(err.message)
+    }
+  }
+
   return (
     <div className="flex md:flex-row flex-col items-center justify-center px-3 md:px-24">
       <div className="md:w-1/2">
@@ -14,7 +58,7 @@ const Login = () => {
           Login Please!
         </h2>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
               <label className="block mb text-sm">Email Address</label>
@@ -68,14 +112,14 @@ const Login = () => {
 
         <div className="flex justify-center gap-2">
           <button
-            // onClick={handleGoogleSignIn}
+            onClick={handleGoogleSignIn}
             className="bg-purple-700 font-semibold w-full rounded-md py-3 text-white flex items-center justify-center gap-2"
           >
             <FaGoogle className="text-xl" /> Google
           </button>
 
           <button
-            // onClick={handleGithubSignIn}
+            onClick={handleGithubSignIn}
             className="bg-purple-700 font-semibold w-full rounded-md  py-3 text-white flex items-center justify-center gap-2"
           >
             <FaGithub className="text-xl" /> Github
