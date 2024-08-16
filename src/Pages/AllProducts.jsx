@@ -8,23 +8,16 @@ const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [brandItem, setBrandItem] = useState("all");
   const [category, setCategory] = useState("all");
-
-//   const [totalProducts, setTotalProducts] = useState(0);
-//   const [sortCriteria, setSortCriteria] = useState("default");
-//   const [brand, setBrand] = useState("all");
-//   const [category, setCategory] = useState("all");
-//   const [priceRange, setPriceRange] = useState("all");
-//   const [brands, setBrands] = useState([]);
-//   const [categories, setCategories] = useState([]);
+  const [priceRange, setPriceRange] = useState("all");
 
   useEffect(() => {
     const getData = async () => {
-      const { data } = await axiosCommon(`/all-products?search=${searchText}&brand=${brandItem}&category=${category}`);
+      const { data } = await axiosCommon(`/all-products?search=${searchText}&brand=${brandItem}&category=${category}&price=${priceRange}`);
       setProducts(data);
     };
 
     getData();
-  }, [searchText,brandItem,category,axiosCommon]);
+  }, [searchText,brandItem,category,priceRange,axiosCommon]);
 
 
   const handleSearch = (e) => {
@@ -35,10 +28,13 @@ const AllProducts = () => {
     setBrandItem(e.target.value);
   };
   
-
   const handleCategory = (e) => {
     setCategory(e.target.value);
   };
+
+  const handlePrice = (e) => {
+    setPriceRange(e.target.value);
+  }
 
 
   return (
@@ -77,11 +73,11 @@ const AllProducts = () => {
           </div>
 
           <div className="w-full md:w-1/5">
-            <select className="p-3 border rounded w-full">
+            <select value={priceRange} onChange={handlePrice} className="p-3 border rounded w-full">
               <option value="all">All Price</option>
-              <option value="low">Low (0 - 500)</option>
-              <option value="mid">Mid (500 - 1000)</option>
-              <option value="high">High (1000+)</option>
+              <option value="low">Price range (0 - 500)</option>
+              <option value="mid">Price range (500 - 1000)</option>
+              <option value="high">Price range (1000+)</option>
             </select>
           </div>
 
