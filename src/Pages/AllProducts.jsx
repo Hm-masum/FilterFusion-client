@@ -1,32 +1,28 @@
-import { useQuery } from "@tanstack/react-query";
 import useAxiosCommon from "../Hooks/useAxiosCommon";
 import ProductCart from "../Components/ProductCart";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const AllProducts = () => {
   const axiosCommon = useAxiosCommon();
-  const [search, setSearch] = useState("");
   const [searchText, setSearchText] = useState("");
+  const [products, setProducts] = useState([]);
 
-  const { data: products = [], refetch } = useQuery({
-    queryKey: ["all-products"],
-    queryFn: async () => {
-      const { data } = await axiosCommon(`/all-products?search=${search}`);
-      return data;
-    },
-  });
+  useEffect(() => {
+    const getData = async () => {
+      const { data } = await axiosCommon(`/all-products?search=${searchText}`);;
+      setProducts(data);
+    };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setSearch(searchText);
-    refetch();
-  };
+    getData();
+  }, [searchText,axiosCommon]);
+
+
 
   return (
     <div>
       <div className="py-8">
-        <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-2">
-          <div className="w-full md:w-2/12">
+        <div className="flex flex-col md:flex-row gap-2">
+          <div className="w-full md:w-1/5">
             <input
               name="search"
               onChange={(e) => setSearchText(e.target.value)}
@@ -36,7 +32,7 @@ const AllProducts = () => {
             />
           </div>
 
-          <div className="w-full md:w-2/12">
+          <div className="w-full md:w-1/5">
             <select className="p-3 border rounded w-full">
               <option value="all">All Brands</option>
               <option value="Arong">Arong</option>
@@ -47,7 +43,7 @@ const AllProducts = () => {
             </select>
           </div>
 
-          <div className="w-full md:w-2/12">
+          <div className="w-full md:w-1/5">
             <select className="p-3 border rounded w-full">
               <option value="all">All Category</option>
               <option value="Painting">Painting</option>
@@ -57,7 +53,7 @@ const AllProducts = () => {
             </select>
           </div>
 
-          <div className="w-full md:w-2/12">
+          <div className="w-full md:w-1/5">
             <select className="p-3 border rounded w-full">
               <option value="all">All Price</option>
               <option value="low">Low (0 - 500)</option>
@@ -66,7 +62,7 @@ const AllProducts = () => {
             </select>
           </div>
 
-          <div className="w-full md:w-2/12">
+          <div className="w-full md:w-1/5">
             <select className="p-3 border rounded w-full">
               <option value="all">Sort by</option>
               <option value="lowToHigh">Low to High Price</option>
@@ -74,9 +70,7 @@ const AllProducts = () => {
               <option value="newestDate">Newest Date</option>
             </select>
           </div>
-
-          <button className="btn bg-purple-600 text-white w-full md:w-2/12">Search</button>
-        </form>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
