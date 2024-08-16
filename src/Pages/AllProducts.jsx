@@ -6,16 +6,39 @@ const AllProducts = () => {
   const axiosCommon = useAxiosCommon();
   const [searchText, setSearchText] = useState("");
   const [products, setProducts] = useState([]);
+  const [brandItem, setBrandItem] = useState("all");
+  const [category, setCategory] = useState("all");
+
+//   const [totalProducts, setTotalProducts] = useState(0);
+//   const [sortCriteria, setSortCriteria] = useState("default");
+//   const [brand, setBrand] = useState("all");
+//   const [category, setCategory] = useState("all");
+//   const [priceRange, setPriceRange] = useState("all");
+//   const [brands, setBrands] = useState([]);
+//   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
-      const { data } = await axiosCommon(`/all-products?search=${searchText}`);;
+      const { data } = await axiosCommon(`/all-products?search=${searchText}&brand=${brandItem}&category=${category}`);
       setProducts(data);
     };
 
     getData();
-  }, [searchText,axiosCommon]);
+  }, [searchText,brandItem,category,axiosCommon]);
 
+
+  const handleSearch = (e) => {
+    setSearchText(e.target.value)
+  }
+ 
+  const handleBrand = (e) => {
+    setBrandItem(e.target.value);
+  };
+  
+
+  const handleCategory = (e) => {
+    setCategory(e.target.value);
+  };
 
 
   return (
@@ -25,7 +48,7 @@ const AllProducts = () => {
           <div className="w-full md:w-1/5">
             <input
               name="search"
-              onChange={(e) => setSearchText(e.target.value)}
+              onChange={handleSearch}
               value={searchText}
               className="input w-full input-bordered"
               placeholder="Enter Product Name"
@@ -33,7 +56,7 @@ const AllProducts = () => {
           </div>
 
           <div className="w-full md:w-1/5">
-            <select className="p-3 border rounded w-full">
+            <select value={brandItem} onChange={handleBrand} className="p-3 border rounded w-full">
               <option value="all">All Brands</option>
               <option value="Arong">Arong</option>
               <option value="Cascade">Cascade</option>
@@ -44,7 +67,7 @@ const AllProducts = () => {
           </div>
 
           <div className="w-full md:w-1/5">
-            <select className="p-3 border rounded w-full">
+            <select value={category} onChange={handleCategory} className="p-3 border rounded w-full">
               <option value="all">All Category</option>
               <option value="Painting">Painting</option>
               <option value="Scenario">Scenario</option>
