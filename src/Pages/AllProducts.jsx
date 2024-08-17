@@ -9,15 +9,20 @@ const AllProducts = () => {
   const [brandItem, setBrandItem] = useState("all");
   const [category, setCategory] = useState("all");
   const [priceRange, setPriceRange] = useState("all");
+  const [sort, setSort] = useState("all");
+
+//   const [totalProducts, setTotalProducts] = useState(0);
+//   const [brands, setBrands] = useState([]);
+//   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
-      const { data } = await axiosCommon(`/all-products?search=${searchText}&brand=${brandItem}&category=${category}&price=${priceRange}`);
+      const { data } = await axiosCommon(`/all-products?search=${searchText}&brand=${brandItem}&category=${category}&price=${priceRange}&sort=${sort}`);
       setProducts(data);
     };
 
     getData();
-  }, [searchText,brandItem,category,priceRange,axiosCommon]);
+  }, [searchText,brandItem,category,priceRange,sort,axiosCommon]);
 
 
   const handleSearch = (e) => {
@@ -34,6 +39,10 @@ const AllProducts = () => {
 
   const handlePrice = (e) => {
     setPriceRange(e.target.value);
+  }
+
+  const handleSorting = (e) => {
+    setSort(e.target.value);
   }
 
 
@@ -67,7 +76,7 @@ const AllProducts = () => {
               <option value="all">All Category</option>
               <option value="Painting">Painting</option>
               <option value="Scenario">Scenario</option>
-              <option value="Mobile">Scenario</option>
+              <option value="Mobile">Mobile</option>
               <option value="Shoe">Shoe</option>
             </select>
           </div>
@@ -82,11 +91,12 @@ const AllProducts = () => {
           </div>
 
           <div className="w-full md:w-1/5">
-            <select className="p-3 border rounded w-full">
+            <select value={sort} onChange={handleSorting} className="p-3 border rounded w-full">
               <option value="all">Sort by</option>
               <option value="lowToHigh">Low to High Price</option>
               <option value="highToLow">High To Low Price</option>
               <option value="newestDate">Newest Date</option>
+              <option value="lowestDate">Lowest Date</option>
             </select>
           </div>
         </div>

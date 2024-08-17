@@ -17,7 +17,8 @@ const AddProducts = () => {
     const name = form.name.value;
     const category = form.category.value;
     const brand=form.brand.value;
-    const price = form.price.value;
+    let price = form.price.value;
+    price=parseFloat(price)
     const rating = form.rating.value;
     const description = form.description.value;
     const created_date = startDate.toLocaleDateString();
