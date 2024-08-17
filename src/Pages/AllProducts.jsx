@@ -54,7 +54,6 @@ const AllProducts = () => {
 
   const numberOfPages = Math.ceil(totalProducts / 6);
   const pages=[...Array(numberOfPages).keys()]
-  console.log(numberOfPages,totalProducts)
 
   const handlePrevPage = () => {
     if (currentPage > 0) {

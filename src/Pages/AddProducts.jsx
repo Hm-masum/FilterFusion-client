@@ -38,7 +38,6 @@ const AddProducts = () => {
         image_url,
       };
 
-      console.log(productsData)
 
       await axiosCommon.post(`/products`,productsData);
       Swal.fire({

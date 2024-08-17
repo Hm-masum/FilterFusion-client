@@ -12,14 +12,11 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
-    const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(name,email,password)
 
     try {
-      const result = await createUser(email, password);
-      console.log(result);
+      await createUser(email, password);
       navigate("/");
       toast.success("sign up successful");
     } catch (err) {
