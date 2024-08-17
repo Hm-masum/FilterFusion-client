@@ -10,41 +10,55 @@ const AllProducts = () => {
   const [category, setCategory] = useState("all");
   const [priceRange, setPriceRange] = useState("all");
   const [sort, setSort] = useState("all");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalProducts, setTotalProducts] = useState(0);
 
-//   const [totalProducts, setTotalProducts] = useState(0);
-//   const [brands, setBrands] = useState([]);
-//   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
-      const { data } = await axiosCommon(`/all-products?search=${searchText}&brand=${brandItem}&category=${category}&price=${priceRange}&sort=${sort}`);
+      const { data } = await axiosCommon(
+        `/all-products?search=${searchText}&brand=${brandItem}&category=${category}&price=${priceRange}&sort=${sort}`
+      );
       setProducts(data);
     };
 
     getData();
-  }, [searchText,brandItem,category,priceRange,sort,axiosCommon]);
-
+  }, [searchText, brandItem, category, priceRange, sort, axiosCommon]);
 
   const handleSearch = (e) => {
-    setSearchText(e.target.value)
-  }
- 
+    setSearchText(e.target.value);
+  };
+
   const handleBrand = (e) => {
     setBrandItem(e.target.value);
   };
-  
+
   const handleCategory = (e) => {
     setCategory(e.target.value);
   };
 
   const handlePrice = (e) => {
     setPriceRange(e.target.value);
-  }
+  };
 
   const handleSorting = (e) => {
     setSort(e.target.value);
-  }
+  };
 
+  const numberOfPages = Math.ceil(totalProducts / 9);
+  const pages=[...Array(numberOfPages).keys()]
+
+  const handlePrevPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < numberOfPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   return (
     <div>
@@ -61,7 +75,11 @@ const AllProducts = () => {
           </div>
 
           <div className="w-full md:w-1/5">
-            <select value={brandItem} onChange={handleBrand} className="p-3 border rounded w-full">
+            <select
+              value={brandItem}
+              onChange={handleBrand}
+              className="p-3 border rounded w-full"
+            >
               <option value="all">All Brands</option>
               <option value="Arong">Arong</option>
               <option value="Cascade">Cascade</option>
@@ -72,7 +90,11 @@ const AllProducts = () => {
           </div>
 
           <div className="w-full md:w-1/5">
-            <select value={category} onChange={handleCategory} className="p-3 border rounded w-full">
+            <select
+              value={category}
+              onChange={handleCategory}
+              className="p-3 border rounded w-full"
+            >
               <option value="all">All Category</option>
               <option value="Painting">Painting</option>
               <option value="Scenario">Scenario</option>
@@ -82,7 +104,11 @@ const AllProducts = () => {
           </div>
 
           <div className="w-full md:w-1/5">
-            <select value={priceRange} onChange={handlePrice} className="p-3 border rounded w-full">
+            <select
+              value={priceRange}
+              onChange={handlePrice}
+              className="p-3 border rounded w-full"
+            >
               <option value="all">All Price</option>
               <option value="low">Price range (0 - 500)</option>
               <option value="mid">Price range (500 - 1000)</option>
@@ -91,7 +117,11 @@ const AllProducts = () => {
           </div>
 
           <div className="w-full md:w-1/5">
-            <select value={sort} onChange={handleSorting} className="p-3 border rounded w-full">
+            <select
+              value={sort}
+              onChange={handleSorting}
+              className="p-3 border rounded w-full"
+            >
               <option value="all">Sort by</option>
               <option value="lowToHigh">Low to High Price</option>
               <option value="highToLow">High To Low Price</option>
@@ -106,6 +136,22 @@ const AllProducts = () => {
         {products.map((product) => (
           <ProductCart key={product._id} product={product} />
         ))}
+      </div>
+
+      <div className="my-10 flex justify-center">
+        <div className="pagination">
+          <button onClick={handlePrevPage}>Prev</button>
+          {pages.map((page) => (
+            <button
+              className={currentPage === page ? "selected" : undefined}
+              onClick={() => setCurrentPage(page)}
+              key={page}
+            >
+              {page}
+            </button>
+          ))}
+          <button onClick={handleNextPage}>Next</button>
+        </div>
       </div>
     </div>
   );
