@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 const ProductCart = ({product}) => {
     const  {
+        _id,
         name,
         category,
         brand,
@@ -38,6 +39,7 @@ const ProductCart = ({product}) => {
         </div>
         <div className="flex items-center justify-center">
           <Link
+            to={`/product-details/${_id}`}
             className="btn w-full text-white btn-outline bg-purple-700"
           >
             View Details

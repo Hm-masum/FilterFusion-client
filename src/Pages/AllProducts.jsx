@@ -29,22 +29,27 @@ const AllProducts = () => {
 
   const handleSearch = (e) => {
     setSearchText(e.target.value);
+    setCurrentPage(0);
   };
 
   const handleBrand = (e) => {
     setBrandItem(e.target.value);
+    setCurrentPage(0);
   };
 
   const handleCategory = (e) => {
     setCategory(e.target.value);
+    setCurrentPage(0);
   };
 
   const handlePrice = (e) => {
     setPriceRange(e.target.value);
+    setCurrentPage(0);
   };
 
   const handleSorting = (e) => {
     setSort(e.target.value);
+    setCurrentPage(0);
   };
 
   const numberOfPages = Math.ceil(totalProducts / 6);

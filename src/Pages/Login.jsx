@@ -31,7 +31,7 @@ const Login = () => {
     try {
       await signInWithGoogle();
       navigate(from);
-      toast.success("sign up successful");
+      toast.success("sign in successful");
     } catch (err) {
       toast.error(err.message);
     }
@@ -41,7 +41,7 @@ const Login = () => {
     try{
       await signInWithGithub()
       navigate(from)
-      toast.success('sign up successful')
+      toast.success('sign in successful')
     }
     catch(err){
       toast.error(err.message)
