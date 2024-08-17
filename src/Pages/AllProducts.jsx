@@ -16,14 +16,15 @@ const AllProducts = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const { data } = await axiosCommon(
-        `/all-products?search=${searchText}&brand=${brandItem}&category=${category}&price=${priceRange}&sort=${sort}`
+      const {data} = await axiosCommon(
+        `/all-products?search=${searchText}&brand=${brandItem}&category=${category}&price=${priceRange}&sort=${sort}&page=${currentPage}`
       );
-      setProducts(data);
+      setProducts(data.result);
+      setTotalProducts(data.count)
     };
 
     getData();
-  }, [searchText, brandItem, category, priceRange, sort, axiosCommon]);
+  }, [searchText, brandItem, category, priceRange, sort, currentPage,axiosCommon]);
 
   const handleSearch = (e) => {
     setSearchText(e.target.value);
@@ -45,8 +46,9 @@ const AllProducts = () => {
     setSort(e.target.value);
   };
 
-  const numberOfPages = Math.ceil(totalProducts / 9);
+  const numberOfPages = Math.ceil(totalProducts / 5);
   const pages=[...Array(numberOfPages).keys()]
+  console.log(numberOfPages,totalProducts)
 
   const handlePrevPage = () => {
     if (currentPage > 0) {
