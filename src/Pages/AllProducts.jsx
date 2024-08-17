@@ -1,6 +1,7 @@
 import useAxiosCommon from "../Hooks/useAxiosCommon";
 import ProductCart from "../Components/ProductCart";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const AllProducts = () => {
   const axiosCommon = useAxiosCommon();
@@ -46,7 +47,7 @@ const AllProducts = () => {
     setSort(e.target.value);
   };
 
-  const numberOfPages = Math.ceil(totalProducts / 5);
+  const numberOfPages = Math.ceil(totalProducts / 6);
   const pages=[...Array(numberOfPages).keys()]
   console.log(numberOfPages,totalProducts)
 
@@ -64,6 +65,11 @@ const AllProducts = () => {
 
   return (
     <div>
+
+      <Helmet>
+        <title>FilterFusion | All Products</title>
+      </Helmet>
+
       <div className="py-8">
         <div className="flex flex-col md:flex-row gap-2">
           <div className="w-full md:w-1/5">
@@ -141,18 +147,18 @@ const AllProducts = () => {
       </div>
 
       <div className="my-10 flex justify-center">
-        <div className="pagination">
-          <button onClick={handlePrevPage}>Prev</button>
+        <div className="flex gap-3">
+          <button className="py-2 text-sm px-3 rounded-lg text-white bg-purple-600" onClick={handlePrevPage}>Prev</button>
           {pages.map((page) => (
             <button
-              className={currentPage === page ? "selected" : undefined}
+              className={currentPage === page ? "py-2 text-sm px-4 rounded-md text-white bg-purple-600" : undefined}
               onClick={() => setCurrentPage(page)}
               key={page}
             >
-              {page}
+              {page+1}
             </button>
           ))}
-          <button onClick={handleNextPage}>Next</button>
+          <button className="py-2 text-sm px-3 rounded-lg text-white bg-purple-600" onClick={handleNextPage}>Next</button>
         </div>
       </div>
     </div>

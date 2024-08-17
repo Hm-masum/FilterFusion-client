@@ -2,6 +2,7 @@ import logo from "../assets/login.png";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const Register = () => {
     const { createUser } = useAuth();
@@ -28,6 +29,11 @@ const Register = () => {
 
   return (
     <div className="flex md:flex-row-reverse flex-col items-center justify-center px-3 md:px-24">
+      
+      <Helmet>
+        <title>FilterFusion | Register</title>
+      </Helmet>
+
       <div className="md:w-1/2">
         <img className="w-[600px] md:h-[600px]" src={logo} alt="" />
       </div>

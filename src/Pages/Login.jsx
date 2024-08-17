@@ -3,6 +3,7 @@ import logo from "../assets/login.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useAuth from "../Hooks/useAuth";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
   const { signIn, signInWithGoogle,signInWithGithub } = useAuth();
@@ -49,6 +50,11 @@ const Login = () => {
 
   return (
     <div className="flex md:flex-row flex-col items-center justify-center px-3 md:px-24">
+      
+      <Helmet>
+        <title>FilterFusion | Login</title>
+      </Helmet>
+      
       <div className="md:w-1/2">
         <img className="w-[600px] md:h-[600px]" src={logo} alt="" />
       </div>
